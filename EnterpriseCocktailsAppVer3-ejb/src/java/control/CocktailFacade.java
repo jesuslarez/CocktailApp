@@ -6,6 +6,7 @@
 package control;
 
 import entities.Cocktail;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -30,8 +31,8 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
     }
 
     public Cocktail add(String name, String description, String recipe) {
-        
-        Cocktail newCocktail = new Cocktail(99,name,description,recipe);
+
+        Cocktail newCocktail = new Cocktail(99, name, description, recipe);
         em.persist(newCocktail);
         return newCocktail;
     }
@@ -40,5 +41,27 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
         Cocktail cocktail = em.find(Cocktail.class, id);
         em.remove(cocktail);
     }
+
+    public Cocktail merge(int id, String name, String description, String recipe) {
+
+        Cocktail cocktail = em.find(Cocktail.class, id);
+        if (name != null) {
+            cocktail.setName(name);
+        }
+        if (description != null) {
+            cocktail.setDescription(description);
+        }
+        if (recipe != null) {
+            cocktail.setRecipe(recipe);
+        }
+        em.merge(cocktail);
+        return cocktail;
+    }
     
+    public List findByName(String name){
+        return em.createQuery("SELECT c FROM Cocktail c WHERE c.name LIKE :cocktailName")
+                .setParameter("cocktailName", name)
+                .setMaxResults(10)
+                .getResultList();
+    }
 }
