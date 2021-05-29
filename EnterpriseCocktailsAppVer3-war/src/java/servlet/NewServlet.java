@@ -6,9 +6,16 @@
 package servlet;
 
 import control.*;
+import entities.Client;
+import entities.Cocktail;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author Jesus Larez
  */
 public class NewServlet extends HttpServlet {
+
     @EJB
     CocktailFacade cocktailFacade;
 
@@ -39,11 +47,68 @@ public class NewServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewServlet</title>");            
+            out.println("<title>Servlet NewServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            System.out.println("<h2> "+ cocktailFacade.findAll()  + " </h2>");
+            System.out.println("<h2> " + cocktailFacade.findAll() + " </h2>");
+            out.println("<h2> " + cocktailFacade.findAll() + " </h2>");
+
+            ClientFacade client = null;
+            try {
+                // java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/ClientFacade
+                // java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/ClientFacade!control.ClientFacade
+                client = (ClientFacade) InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/ClientFacade");
+            } catch (NamingException ex) {
+                Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            List<Client> findAll = client.findAll();
+            for (Client client1 : findAll) {
+
+                System.out.println("<h2> " + client1.getNickname() + " </h2>");
+                out.println("<h2> " + client1.getNickname() + " </h2>");
+            }
+            List<Cocktail> findAll1 = cocktailFacade.findAll();
+            for (Cocktail cocktail : findAll1) {
+                System.out.println("<h3> " + cocktail.getName() + "</h3>");
+                out.println("<h3> " + cocktail.getName() + "</h3>");
+            }
+            /*
+            // add cocktail funciona,
+            Cocktail added = cocktailFacade.add("newCocktail" , "Description", "Recipe");
+            
+            System.out.println("Added: " + added.getName() + ", id:" + added.getId());
+            out.println("Added: " + added.getName() + ", id:" + added.getId());
+            
+            findAll1 = cocktailFacade.findAll();
+            for (Cocktail cocktail : findAll1) {
+                if (cocktail.getId() == 99) {
+                    System.out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
+                out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
+                }else{
+                System.out.println("<h3> " + cocktail.getName() + "</h3>");
+                out.println("<h3> " + cocktail.getName() + "</h3>");
+                }
+            }*/
+             
+            
+            /*
+            // remove cocktail funciona,
+            cocktailFacade.remove(99);
+            System.out.println("removed: id: 99");
+            out.println("removed: id: 99");
+            
+            findAll1 = cocktailFacade.findAll();
+            for (Cocktail cocktail : findAll1) {
+                if (cocktail.getId() == 99) {
+                    System.out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
+                out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
+                }else{
+                System.out.println("<h3> " + cocktail.getName() + "</h3>");
+                out.println("<h3> " + cocktail.getName() + "</h3>");
+                }
+            }*/
+            
             out.println("</body>");
             out.println("</html>");
         }

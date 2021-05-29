@@ -28,5 +28,17 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
     public CocktailFacade() {
         super(Cocktail.class);
     }
+
+    public Cocktail add(String name, String description, String recipe) {
+        
+        Cocktail newCocktail = new Cocktail(99,name,description,recipe);
+        em.persist(newCocktail);
+        return newCocktail;
+    }
+
+    public void remove(int id) {
+        Cocktail cocktail = em.find(Cocktail.class, id);
+        em.remove(cocktail);
+    }
     
 }

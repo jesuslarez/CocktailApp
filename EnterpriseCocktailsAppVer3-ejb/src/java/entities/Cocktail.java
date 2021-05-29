@@ -49,6 +49,14 @@ public class Cocktail implements Serializable {
         this.id = id;
     }
 
+    public Cocktail(Integer id, String name, String description, String recipe) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.recipe = recipe;
+    }
+    
+
     public Integer getId() {
         return id;
     }
