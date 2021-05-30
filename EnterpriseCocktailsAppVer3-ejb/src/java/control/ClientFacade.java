@@ -24,26 +24,14 @@ public class ClientFacade extends AbstractFacade<Client> {
     public ClientFacade() {
         super(Client.class);
     }
-
+    
     public Client login(String name, String password) {
-        List<Client> users = this.findAll();
-        Client u = null;
-        for (Client user : users) {
-            if (user.getNickname().equals(name)) {
-                u = user;
-            }
-        }
-        Client user = em.find(Client.class, u.getId());
-        System.out.println("CLIENT FOUND: " + user.getNickname());
-        if (checkPassword(user, password)) return user;
+        List <Client> resultList = em.createQuery("SELECT c FROM Client c WHERE c.nickname = :nickname AND c.password = :password")
+                .setParameter("nickname", name)
+                .setParameter("password", password)
+                .getResultList();
+        if (!resultList.isEmpty()) return resultList.get(0);
         return null;
     }
-
-    private boolean checkPassword(Client user, String password) {
-        if (user.getPassword().equals(password)) {
-            return true;
-        }
-        return false;
-    }
-
+    
 }

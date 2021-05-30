@@ -6,14 +6,17 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,6 +41,10 @@ public class Bar implements Serializable {
     private String name;
     @Column(name = "ADDRESS")
     private String address;
+    @ManyToMany(mappedBy = "barCollection")
+    private Collection<Client> clientCollection;
+    @ManyToMany(mappedBy = "barCollection")
+    private Collection<Cocktail> cocktailCollection;
 
     public Bar() {
     }
@@ -68,6 +75,24 @@ public class Bar implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    @XmlTransient
+    public Collection<Client> getClientCollection() {
+        return clientCollection;
+    }
+
+    public void setClientCollection(Collection<Client> clientCollection) {
+        this.clientCollection = clientCollection;
+    }
+
+    @XmlTransient
+    public Collection<Cocktail> getCocktailCollection() {
+        return cocktailCollection;
+    }
+
+    public void setCocktailCollection(Collection<Cocktail> cocktailCollection) {
+        this.cocktailCollection = cocktailCollection;
     }
 
     @Override

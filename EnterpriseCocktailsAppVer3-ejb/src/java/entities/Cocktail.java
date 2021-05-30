@@ -6,14 +6,19 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -37,10 +42,20 @@ public class Cocktail implements Serializable {
     private Integer id;
     @Column(name = "NAME")
     private String name;
-    @Column(name = "DESCRIPTION")
-    private String description;
-    @Column(name = "RECIPE")
-    private String recipe;
+    private CocktailRecipeAndDescription cocktailRecipeAndDescription;
+    
+    @ManyToMany(mappedBy = "cocktailCollection")
+    private Collection<Client> clientCollection;
+    @JoinTable(name = "COCKTAILANDINGREDIENT", joinColumns = {
+        @JoinColumn(name = "ID_COCKTAIL", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_INGREDIENT", referencedColumnName = "ID")})
+    @ManyToMany
+    private Collection<Ingredient> ingredientCollection;
+    @JoinTable(name = "BARMENU", joinColumns = {
+        @JoinColumn(name = "ID_COCKTAIL", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_BAR", referencedColumnName = "ID")})
+    @ManyToMany
+    private Collection<Bar> barCollection;
 
     public Cocktail() {
     }
@@ -48,14 +63,6 @@ public class Cocktail implements Serializable {
     public Cocktail(Integer id) {
         this.id = id;
     }
-
-    public Cocktail(Integer id, String name, String description, String recipe) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.recipe = recipe;
-    }
-    
 
     public Integer getId() {
         return id;
@@ -73,20 +80,40 @@ public class Cocktail implements Serializable {
         this.name = name;
     }
 
-    public String getDescription() {
-        return description;
+    public CocktailRecipeAndDescription getCocktailRecipeAndDescription() {
+        return cocktailRecipeAndDescription;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setCocktailRecipeAndDescription(CocktailRecipeAndDescription cocktailRecipeAndDescription) {
+        this.cocktailRecipeAndDescription = cocktailRecipeAndDescription;
+    }
+    
+
+    @XmlTransient
+    public Collection<Client> getClientCollection() {
+        return clientCollection;
     }
 
-    public String getRecipe() {
-        return recipe;
+    public void setClientCollection(Collection<Client> clientCollection) {
+        this.clientCollection = clientCollection;
     }
 
-    public void setRecipe(String recipe) {
-        this.recipe = recipe;
+    @XmlTransient
+    public Collection<Ingredient> getIngredientCollection() {
+        return ingredientCollection;
+    }
+
+    public void setIngredientCollection(Collection<Ingredient> ingredientCollection) {
+        this.ingredientCollection = ingredientCollection;
+    }
+
+    @XmlTransient
+    public Collection<Bar> getBarCollection() {
+        return barCollection;
+    }
+
+    public void setBarCollection(Collection<Bar> barCollection) {
+        this.barCollection = barCollection;
     }
 
     @Override

@@ -5,6 +5,8 @@
  */
 package servlet;
 
+import control.CocktailFacade;
+import control.ClientFacade;
 import control.*;
 import entities.Client;
 import entities.Cocktail;
@@ -80,19 +82,17 @@ public class NewServlet extends HttpServlet {
             /*
             // add cocktail funciona,
             Cocktail added = cocktailFacade.add("newCocktail" , "Description", "Recipe");
-            
             System.out.println("Added: " + added.getName() + ", id:" + added.getId());
             out.println("Added: " + added.getName() + ", id:" + added.getId());
-            
             findAll1 = cocktailFacade.findAll();
             for (Cocktail cocktail : findAll1) {
-                if (cocktail.getId() == 99) {
-                    System.out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
-                out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
-                }else{
-                System.out.println("<h3> " + cocktail.getName() + "</h3>");
-                out.println("<h3> " + cocktail.getName() + "</h3>");
-                }
+            if (cocktail.getId() == 99) {
+            System.out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
+            out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
+            }else{
+            System.out.println("<h3> " + cocktail.getName() + "</h3>");
+            out.println("<h3> " + cocktail.getName() + "</h3>");
+            }
             }*/
             /*
             // remove cocktail funciona,
@@ -118,16 +118,22 @@ public class NewServlet extends HttpServlet {
             out.println("<h3> " + cocktail.getName() + "</h3>");
             }
              */
-            
-            
+            /*
             //Find by name
             List findByName = cocktailFacade.findByName("Mojito");
             out.println("<h2> Cocktails Found: </h2>");
             for (Object object : findByName) {
-                Cocktail cocktail = (Cocktail) object;
-                out.println("<h2>" + cocktail.getName() +"</h2>");
+            Cocktail cocktail = (Cocktail) object;
+            out.println("<h2>" + cocktail.getName() +"</h2>");
             }
-            
+             */
+            /*
+            List findByNameCriteria = cocktailFacade.findByNameCriteria();
+            for (Object object : findByNameCriteria) {
+                Cocktail cocktail = (Cocktail) object;
+                out.println("<h2> Criteria:" +cocktail.getName() + "</h2");
+            }
+            */
             out.println("</body>");
             out.println("</html>");
         }

@@ -6,14 +6,17 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,6 +41,8 @@ public class Ingredient implements Serializable {
     private String name;
     @Column(name = "ALCHOHOL")
     private String alchohol;
+    @ManyToMany(mappedBy = "ingredientCollection")
+    private Collection<Cocktail> cocktailCollection;
 
     public Ingredient() {
     }
@@ -68,6 +73,15 @@ public class Ingredient implements Serializable {
 
     public void setAlchohol(String alchohol) {
         this.alchohol = alchohol;
+    }
+
+    @XmlTransient
+    public Collection<Cocktail> getCocktailCollection() {
+        return cocktailCollection;
+    }
+
+    public void setCocktailCollection(Collection<Cocktail> cocktailCollection) {
+        this.cocktailCollection = cocktailCollection;
     }
 
     @Override

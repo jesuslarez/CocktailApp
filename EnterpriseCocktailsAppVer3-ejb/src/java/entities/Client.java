@@ -6,14 +6,19 @@
 package entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -38,6 +43,16 @@ public class Client implements Serializable {
     private String nickname;
     @Column(name = "PASSWORD")
     private String password;
+    @JoinTable(name = "FAVOURITECOCKTAILS", joinColumns = {
+        @JoinColumn(name = "ID_USER", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_COCKTAIL", referencedColumnName = "ID")})
+    @ManyToMany
+    private Collection<Cocktail> cocktailCollection;
+    @JoinTable(name = "FAVOURITEBAR", joinColumns = {
+        @JoinColumn(name = "ID_USER", referencedColumnName = "ID")}, inverseJoinColumns = {
+        @JoinColumn(name = "ID_BAR", referencedColumnName = "ID")})
+    @ManyToMany
+    private Collection<Bar> barCollection;
 
     public Client() {
     }
@@ -70,6 +85,24 @@ public class Client implements Serializable {
         this.password = password;
     }
 
+    @XmlTransient
+    public Collection<Cocktail> getCocktailCollection() {
+        return cocktailCollection;
+    }
+
+    public void setCocktailCollection(Collection<Cocktail> cocktailCollection) {
+        this.cocktailCollection = cocktailCollection;
+    }
+
+    @XmlTransient
+    public Collection<Bar> getBarCollection() {
+        return barCollection;
+    }
+
+    public void setBarCollection(Collection<Bar> barCollection) {
+        this.barCollection = barCollection;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -92,7 +125,7 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "control.Client[ id=" + id + " ]";
+        return "entities.Client[ id=" + id + " ]";
     }
     
 }
