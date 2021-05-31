@@ -4,6 +4,8 @@
     Author     : Jesus Larez
 --%>
 
+<%@page import="java.util.Collection"%>
+<%@page import="java.util.List"%>
 <%@page import="entities.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -48,10 +50,10 @@
     <%
         Cocktail cocktail = (Cocktail) session.getAttribute("cocktail");
         String name = cocktail.getName();
-        String description = cocktail.getDescription();
-        String recipe = cocktail.getRecipe();
-        ArrayList<Bar> barList = (ArrayList<Bar>) session.getAttribute("barList");
-
+        CocktailRecipeAndDescription cocktailRecipeAndDescription = cocktail.getCocktailRecipeAndDescription();
+        String description = cocktailRecipeAndDescription.getDescription();
+        String recipe = cocktailRecipeAndDescription.getRecipe();
+        Collection<Bar> barList = cocktail.getBarCollection();
     %>
     <h1> <%= name%> </h1>
     <ul><h5> <%= description%> </h5></ul>
@@ -64,17 +66,16 @@
         </form> </ul>
     <h2> Bars that sell this cocktail: <br> </h2><%
         for (Bar bar : barList) {
-            for (Cocktail barCocktail : bar.getBarMenu().getCocktailsList()) {
-                if (cocktail.getName().equals(barCocktail.getName())) {
         %> <h3><ul>
             <form action=FrontController>
                 <input type="hidden" value = "<%= bar.getName()%>" name="barName">
                 <input type="hidden" name="command" value="CmdViewBar">
                 <input type="submit" class="btn btn-secondary" value = "<%= bar.getName()%>" > 
-            </form> </ul></h3>  <%
-                        }
-                    }
-                }%> 
+            </form> 
+        </ul>
+    </h3>  <%
+        }
+    %> 
     <footer class="bg-light text-center text-lg-start">
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">

@@ -4,8 +4,6 @@ import entities.Bar;
 import entities.Client;
 import entities.Cocktail;
 import entities.CocktailRecipeAndDescription;
-import entities.Ingredient;
-import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -35,6 +33,16 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
                 .setParameter("user", user)
                 .getResultList();
 
+    }
+    public List<Cocktail> addFavourite(String cocktailName, Client user) {
+        List cocktailCollection = em.createQuery("SELECT c FROM Cocktail c WHERE c.clientCollection IN (:user)")
+                .setParameter("user", user)
+                .getResultList();
+        Cocktail cocktail = findByName(cocktailName);
+        cocktailCollection.add(cocktail);
+        user.setCocktailCollection(cocktailCollection);
+        em.merge(user);
+        return cocktailCollection;
     }
 
     public Cocktail add(String name, String description, String recipe) {
@@ -90,9 +98,15 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
     }
 
     public List<Cocktail> getByIngredient(String ingredient) {
+        if (ingredient.equals("Any")) {
+            return this.findAll();
+        }
         return em.createQuery("SELECT c FROM Cocktail c inner join c.ingredientCollection i WHERE i.name LIKE :ingredient")
                 .setParameter("ingredient", ingredient)
                 .getResultList();
+    }
+    public Cocktail findByName(String name){
+        return (Cocktail) em.createNamedQuery("Cocktail.findByName").setParameter("name", name).getSingleResult();
     }
 
 }

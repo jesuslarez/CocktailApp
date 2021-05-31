@@ -1,5 +1,6 @@
 package commands;
 
+import control.CocktailFacade;
 import entities.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,16 +18,16 @@ public class CmdViewCocktail extends FrontCommand {
     @Override
     public void process() {
         HttpSession session = request.getSession(true);
-        String cocktail = (String) request.getParameter("cocktailName");/*
-        Catalog catalog = (Catalog) session.getAttribute("catalog");
-        CocktailSearchByNameRemote cocktailSearch = null;
+        String cocktailName = (String) request.getParameter("cocktailName");
+        CocktailFacade cocktail = null;
         try {
-            cocktailSearch = (CocktailSearchByNameRemote) InitialContext.doLookup("java:global/EnterpriseCocktailsApp/EnterpriseCocktailsApp-ejb/CocktailSearchByName!entities.CocktailSearchByNameRemote");
+            cocktail = InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/CocktailFacade");
         } catch (NamingException ex) {
             Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        Cocktail result = cocktailSearch.search(cocktail, catalog);
-        session.setAttribute("cocktail", result);*/
+        Cocktail findByName = cocktail.findByName(cocktailName);
+        session.setAttribute("cocktail", findByName);
+        
         forward("/view_cocktail.jsp");
     }
 

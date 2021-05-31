@@ -51,7 +51,7 @@ public class Client implements Serializable {
     @JoinTable(name = "FAVOURITEBAR", joinColumns = {
         @JoinColumn(name = "ID_USER", referencedColumnName = "ID")}, inverseJoinColumns = {
         @JoinColumn(name = "ID_BAR", referencedColumnName = "ID")})
-    @ManyToMany
+    @ManyToMany 
     private Collection<Bar> barCollection;
 
     public Client() {

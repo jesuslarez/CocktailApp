@@ -8,6 +8,7 @@ package servlet;
 import control.CocktailFacade;
 import control.ClientFacade;
 import control.*;
+import entities.Bar;
 import entities.Client;
 import entities.Cocktail;
 import java.io.IOException;
@@ -31,6 +32,8 @@ public class NewServlet extends HttpServlet {
 
     @EJB
     CocktailFacade cocktailFacade;
+    @EJB
+    BarFacade barFacade;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -58,8 +61,6 @@ public class NewServlet extends HttpServlet {
 
             ClientFacade client = null;
             try {
-                // java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/ClientFacade
-                // java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/ClientFacade!control.ClientFacade
                 client = (ClientFacade) InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/ClientFacade");
             } catch (NamingException ex) {
                 Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
@@ -94,7 +95,7 @@ public class NewServlet extends HttpServlet {
             }
             }
              */
-            /*
+ /*
             // remove cocktail funciona,
             cocktailFacade.remove(6);
             System.out.println("removed: id: 6");
@@ -110,7 +111,7 @@ public class NewServlet extends HttpServlet {
             }
             }
              */
-            /*
+ /*
             //merge
             cocktailFacade.merge(6, "ModifiedCocktail", "This has been changed", "This is the new Recipe");
             findAll1 = cocktailFacade.findAll();
@@ -119,7 +120,7 @@ public class NewServlet extends HttpServlet {
             out.println("<h3> " + cocktail.getName() + "</h3>");
             }
              */
-            /*
+ /*
             //Find by name
             List findByName = cocktailFacade.findByName("Mojito");
             out.println("<h2> Cocktails Found: </h2>");
@@ -128,7 +129,7 @@ public class NewServlet extends HttpServlet {
             out.println("<h2>" + cocktail.getName() +"</h2>");
             }
              */
-            /*
+ /*
             List<Cocktail> orderByName = cocktailFacade.orderByName();
             out.println("<h2> Cocktails Found ordered by NAME: </h2>");
             for (Cocktail cocktail : orderByName) {
@@ -136,12 +137,22 @@ public class NewServlet extends HttpServlet {
             out.println("<h3> " + cocktail.getName() + "</h3>");
             }
              */
+ /*
             List<Cocktail> byIngredient = cocktailFacade.getByIngredient("lime");
             out.println("<h3> BY INGREDIENT LIME</h3>");
             for (Cocktail cocktail : byIngredient) {
                 System.out.println("<h3> " + cocktail.getName() + "</h3>");
                 out.println("<h3> " + cocktail.getName() + "</h3>");
             }
+             */
+
+            Client user = client.login(request.getParameter("nickname"), request.getParameter("password"));
+            List<Bar> orderByName = barFacade.orderByName(user);
+            for (Bar bar : orderByName) {
+                System.out.println(bar.getName());
+                out.println(bar.getName());
+            }
+
             out.println("</body>");
             out.println("</html>");
         }

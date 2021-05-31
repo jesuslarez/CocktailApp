@@ -1,7 +1,9 @@
 package commands;
 
+import control.CocktailFacade;
 import entities.*;
 import entities.Cocktail;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,26 +21,15 @@ public class CmdAddFavouriteCocktail extends FrontCommand {
     @Override
     public void process() {
         HttpSession session = request.getSession(true);
-        /*
-        Catalog catalog = (Catalog) session.getAttribute("catalog");
-        FavouriteCocktailsRemote favouriteCocktails = null;
+        CocktailFacade cocktail = null;
         try {
-            favouriteCocktails = (FavouriteCocktailsRemote) InitialContext.doLookup("java:global/EnterpriseCocktailsApp/EnterpriseCocktailsApp-ejb/FavouriteCocktails!entities.FavouriteCocktailsRemote");
+            cocktail = InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/CocktailFacade");
         } catch (NamingException ex) {
             Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        String cocktail = (String) request.getParameter("cocktailName");
-        CocktailSearchByNameRemote cocktailSearch = null;
-        try {
-            cocktailSearch = (CocktailSearchByNameRemote) InitialContext.doLookup("java:global/EnterpriseCocktailsApp/EnterpriseCocktailsApp-ejb/CocktailSearchByName!entities.CocktailSearchByNameRemote");
-        } catch (NamingException ex) {
-            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        Cocktail result = cocktailSearch.search(cocktail, catalog);
-        favouriteCocktails.addCocktail(result);
-        session.setAttribute("favouriteCocktailsList", favouriteCocktails.getFavouriteList());
-*/
+        }        
+        String cocktailName = (String) request.getParameter("cocktailName");
+        List<Cocktail> favouritecocktails = cocktail.addFavourite(cocktailName, (Client) session.getAttribute("activeUser"));
+        session.setAttribute("favouriteCocktails", favouritecocktails);
         forward("/favourite_list.jsp");
     }
 
