@@ -4,6 +4,8 @@
     Author     : Jesus Larez
 --%>
 
+<%@page import="java.util.Collection"%>
+<%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -48,7 +50,8 @@
         Bar bar = (Bar) session.getAttribute("bar");
         String name = bar.getName();
         String address = bar.getAddress();
-        ArrayList<Cocktail> cocktailList = bar.getBarMenu().getCocktailsList();
+        bar.getCocktailCollection();
+        Collection<Cocktail> cocktailList = bar.getCocktailCollection();
     %>
     <h1> <%= name%> </h1>
     <h2> Address: </h2> <br> <h5><ul><%= address%> </ul></h5>

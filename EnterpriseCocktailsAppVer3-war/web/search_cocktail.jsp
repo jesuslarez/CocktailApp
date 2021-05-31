@@ -4,6 +4,7 @@
     Author     : Jesus Larez
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="entities.*"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -46,7 +47,7 @@
 
     <h2> Cocktails list </h2>
     <%
-        ArrayList<Cocktail> result = (ArrayList) session.getAttribute("cocktailResults");
+        List<Cocktail> result = (List) session.getAttribute("cocktailResults");
         String name = "";
         for (Cocktail cocktail : result) {
             name = cocktail.getName();

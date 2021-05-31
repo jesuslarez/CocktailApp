@@ -1,7 +1,6 @@
 package entities;
 
 import java.io.Serializable;
-import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
 /**
@@ -14,6 +13,15 @@ public class CocktailRecipeAndDescription implements Serializable{
     private String description;
     private String recipe;
 
+    public CocktailRecipeAndDescription(String description, String recipe) {
+        this.description = description;
+        this.recipe = recipe;
+    }
+
+    public CocktailRecipeAndDescription() {
+    }
+    
+    
     public String getDescription() {
         return description;
     }

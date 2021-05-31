@@ -4,6 +4,7 @@
     Author     : Jesus Larez
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="entities.*"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.ArrayList"%>
@@ -17,6 +18,11 @@
 <div class="p-3 mb-2 bg-primary text-white"> <h1>Cocktail App</h1></div>
 </head>
 <body> 
+    <%
+        List<Cocktail> catalog = (List) session.getAttribute("catalog");
+        List<Bar> bars = (List) session.getAttribute("bars");
+        List<Ingredient> ingredients = (List) session.getAttribute("ingredients");
+    %>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a class="navbar-brand" href="#"></a>
@@ -50,16 +56,25 @@
                 <form action="FrontController">
                     <label for="ingredientsAlcohol">Choose an Alcohol:</label>
                     <select name="ingredient1" id="ingredients1" aria-label="Default select example" class="form-select">
-                         <option name= any > Any </option> 
-                    </select>
-                    <label for="ingredientsSoftdrink">Choose a Soft Drink:</label>
-                    <select name="ingredient2" id="ingredients2" aria-label="Default select example" class="form-select">
-                         <option name= any > Any </option> 
+                        <% %> <option name= any > Any </option> <%
+                            for (Ingredient ingredient : ingredients) {
+                                if (ingredient.getAlchohol() != null) {
 
+                        %> <option name=<%= ingredient.getName()%> ><%= ingredient.getName()%></option> <%
+                                }
+                            }
+                        %>
                     </select>
-                    <label for="ingredientsFruit">Choose a fruit: </label>
-                    <select name="ingredient3" id="ingredients3" aria-label="Default select example" class="form-select">
-                         <option name= any > Any </option> 
+                    <label for="ingredients">Choose an ingredient: </label>
+                    <select name="ingredient2" id="ingredients2" aria-label="Default select example" class="form-select">
+                        <% %> <option name= any > Any </option> <%
+                            for (Ingredient ingredient : ingredients) {
+                                if (ingredient.getAlchohol() == null) {
+                        %> <option name=<%= ingredient.getName()%> ><%= ingredient.getName()%></option> <%
+                                }
+                            }
+                        %>
+
                     </select> <br>
                     <input type="hidden" name="command" value="CmdSearchCocktail">
                     <input type="submit" value="Search Cocktails" class="btn btn-primary">
@@ -76,7 +91,12 @@
             <div class="col">
                 <form action="FrontController">
                     <select name="barName" id="barName" aria-label="Default select example" class="form-select">
-                         <option name= any > Any </option> 
+                        <% %> <option name= any > Any </option> <%
+                            for (Bar bar : bars) {
+                        %> <option name=<%= bar.getName()%> ><%= bar.getName()%></option> <%
+
+                            }
+                        %>
                     </select> <br>
                     <input type="hidden" name="command" value="CmdViewBar">
                     <input type="submit" value="View Bar" class="btn btn-primary">

@@ -71,47 +71,48 @@ public class NewServlet extends HttpServlet {
                 System.out.println("<h2> " + client1.getNickname() + " </h2>");
                 out.println("<h2> " + client1.getNickname() + " </h2>");
             }
-            */
+             */
             List<Cocktail> findAll1 = cocktailFacade.findAll();
             for (Cocktail cocktail : findAll1) {
                 System.out.println("<h3> " + cocktail.getName() + "</h3>");
                 out.println("<h3> " + cocktail.getName() + "</h3>");
             }
-            
-            
+            out.println("<br>");
             /*
             // add cocktail funciona,
-            Cocktail added = cocktailFacade.add("newCocktail" , "Description", "Recipe");
+            Cocktail added = cocktailFacade.add("newCocktail", "Description", "Recipe");
             System.out.println("Added: " + added.getName() + ", id:" + added.getId());
             out.println("Added: " + added.getName() + ", id:" + added.getId());
             findAll1 = cocktailFacade.findAll();
             for (Cocktail cocktail : findAll1) {
             if (cocktail.getId() == 99) {
-            System.out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
-            out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
-            }else{
+            System.out.println("<h3> FOUND IT: " + cocktail.getName() + " " + cocktail.getId() + "</h3>");
+            out.println("<h3> FOUND IT: " + cocktail.getName() + " " + cocktail.getId() + "</h3>");
+            } else {
             System.out.println("<h3> " + cocktail.getName() + "</h3>");
             out.println("<h3> " + cocktail.getName() + "</h3>");
             }
-            }*/
+            }
+             */
             /*
             // remove cocktail funciona,
-            cocktailFacade.remove(99);
-            System.out.println("removed: id: 99");
-            out.println("removed: id: 99");
+            cocktailFacade.remove(6);
+            System.out.println("removed: id: 6");
+            out.println("removed: id: 6");
             findAll1 = cocktailFacade.findAll();
             for (Cocktail cocktail : findAll1) {
-            if (cocktail.getId() == 99) {
+            if (cocktail.getId() == 6) {
             System.out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
             out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
-            }else{
+            } else {
             System.out.println("<h3> " + cocktail.getName() + "</h3>");
             out.println("<h3> " + cocktail.getName() + "</h3>");
             }
-            }*/
+            }
+             */
             /*
             //merge
-            cocktailFacade.merge(99, "ModifiedCocktail","This has been changed", "This is the new Recipe");
+            cocktailFacade.merge(6, "ModifiedCocktail", "This has been changed", "This is the new Recipe");
             findAll1 = cocktailFacade.findAll();
             for (Cocktail cocktail : findAll1) {
             System.out.println("<h3> " + cocktail.getName() + "</h3>");
@@ -128,12 +129,19 @@ public class NewServlet extends HttpServlet {
             }
              */
             /*
-            List findByNameCriteria = cocktailFacade.findByNameCriteria();
-            for (Object object : findByNameCriteria) {
-                Cocktail cocktail = (Cocktail) object;
-                out.println("<h2> Criteria:" +cocktail.getName() + "</h2");
+            List<Cocktail> orderByName = cocktailFacade.orderByName();
+            out.println("<h2> Cocktails Found ordered by NAME: </h2>");
+            for (Cocktail cocktail : orderByName) {
+            System.out.println("<h3> " + cocktail.getName() + "</h3>");
+            out.println("<h3> " + cocktail.getName() + "</h3>");
             }
-            */
+             */
+            List<Cocktail> byIngredient = cocktailFacade.getByIngredient("lime");
+            out.println("<h3> BY INGREDIENT LIME</h3>");
+            for (Cocktail cocktail : byIngredient) {
+                System.out.println("<h3> " + cocktail.getName() + "</h3>");
+                out.println("<h3> " + cocktail.getName() + "</h3>");
+            }
             out.println("</body>");
             out.println("</html>");
         }

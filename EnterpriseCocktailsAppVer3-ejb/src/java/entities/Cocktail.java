@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package entities;
 
 import java.io.Serializable;
@@ -30,9 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries({
     @NamedQuery(name = "Cocktail.findAll", query = "SELECT c FROM Cocktail c"),
     @NamedQuery(name = "Cocktail.findById", query = "SELECT c FROM Cocktail c WHERE c.id = :id"),
-    @NamedQuery(name = "Cocktail.findByName", query = "SELECT c FROM Cocktail c WHERE c.name = :name"),
-    @NamedQuery(name = "Cocktail.findByDescription", query = "SELECT c FROM Cocktail c WHERE c.description = :description"),
-    @NamedQuery(name = "Cocktail.findByRecipe", query = "SELECT c FROM Cocktail c WHERE c.recipe = :recipe")})
+    @NamedQuery(name = "Cocktail.findByName", query = "SELECT c FROM Cocktail c WHERE c.name = :name")})
 public class Cocktail implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -6,6 +6,8 @@
 package control;
 
 import entities.Bar;
+import entities.Client;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,5 +30,16 @@ public class BarFacade extends AbstractFacade<Bar> {
     public BarFacade() {
         super(Bar.class);
     }
+
+    public List<Bar> getFavouriteBars(Client user) {
+        return em.createQuery("SELECT b FROM Bar b WHERE b.clientCollection IN (:user)")
+                .setParameter("user", user)
+                .getResultList();
+        
+    }
+    public Bar findByName(String name){
+        return (Bar) em.createNamedQuery("Bar.findByName").setParameter("name", name).getSingleResult();
+    }
     
+
 }

@@ -4,6 +4,7 @@
     Author     : Jesus Larez
 --%>
 
+<%@page import="java.util.List"%>
 <%@page import="javax.naming.InitialContext"%>
 <%@page import="servlet.FrontController"%>
 <%@page import="java.util.logging.Logger"%>
@@ -49,7 +50,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 
     <%
-        ArrayList<Bar> bars = (ArrayList<Bar>) session.getAttribute("favouriteBarList");
+        List<Bar> bars = (List) session.getAttribute("favouriteBars");
         String name = "";
         if (bars == null) {
             bars = new ArrayList<>();

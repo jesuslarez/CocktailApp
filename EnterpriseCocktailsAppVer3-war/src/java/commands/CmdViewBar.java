@@ -1,8 +1,14 @@
 package commands;
 
+import control.BarFacade;
 import entities.*;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
 import javax.servlet.http.HttpSession;
+import servlet.FrontController;
 
 /**
  *
@@ -14,12 +20,14 @@ public class CmdViewBar extends FrontCommand {
     public void process() {
         HttpSession session = request.getSession(true);
         String barName = (String) request.getParameter("barName");
-        ArrayList<Bar> barList = (ArrayList<Bar>) session.getAttribute("barList");
-        for (Bar bar : barList) {
-            if (bar.getName().equals(barName)) {
-                session.setAttribute("bar", bar);
-            }
-        }
+        BarFacade bar = null;
+        try {
+            bar = InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/BarFacade");
+        } catch (NamingException ex) {
+            Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        Bar findByName = bar.findByName(barName);
+        session.setAttribute("bar", findByName);
         forward("/view_bar.jsp");
     }
 }

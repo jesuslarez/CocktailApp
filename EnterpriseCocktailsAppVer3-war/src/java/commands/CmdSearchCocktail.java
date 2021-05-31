@@ -1,7 +1,9 @@
 package commands;
 
+import control.CocktailFacade;
 import entities.*;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.InitialContext;
@@ -15,48 +17,38 @@ import servlet.FrontController;
  */
 public class CmdSearchCocktail extends FrontCommand {
 
-    private ArrayList<String> ingredients = new ArrayList<>();
-
     @Override
     public void process() {
-        HttpSession session = request.getSession(true);/*
-        Catalog catalog = (Catalog) session.getAttribute("catalog");
-        addIngredients(3);
-        CocktailSearchByIngredientsRemote cocktailSearch = null;
+        HttpSession session = request.getSession(true);
+        CocktailFacade cocktailFacade = null;
         try {
-            cocktailSearch = (CocktailSearchByIngredientsRemote) InitialContext.doLookup("java:global/EnterpriseCocktailsApp/EnterpriseCocktailsApp-ejb/CocktailSearchByIngredients!entities.CocktailSearchByIngredientsRemote");
+            cocktailFacade = InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/CocktailFacade");
         } catch (NamingException ex) {
             Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
-        ArrayList<Cocktail> result = cocktailSearch.search(ingredients,catalog);
-        if (result.isEmpty()) {
-            try {
-                FrontCommand command = (FrontCommand) UnknownCommand.class.newInstance();
-                command.init(context, request, response);
-                String message = "No cocktails found";
-                session.setAttribute("errorMessage", message);
-                command.init(context, request, response);
-                command.process();
-            } catch (InstantiationException ex) {
-                Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IllegalAccessException ex) {
-                Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        session.setAttribute("cocktailResults", result);
-*/
-        forward("/search_cocktail.jsp");
-    }
+        List<Cocktail> byIngredient = cocktailFacade.getByIngredient(request.getParameter("ingredient1"));
+        List<Cocktail> byIngredient2 = cocktailFacade.getByIngredient(request.getParameter("ingredient2"));
 
-    private void addIngredients(int size) {
-        String n = "ingredient";
-        for (int i = 1; i <= size; i++) {
-            n += i;
-            if (!request.getParameter(n).equals("Any")) {
-                ingredients.add(request.getParameter(n));
+        //Hacer un select the where ingredient1 and ingredient2
+        
+        if (byIngredient != null) {
+            if (byIngredient2 != null) {
+                for (Cocktail cocktai11 : byIngredient2) {
+                    for (Cocktail cocktai12 : byIngredient) {
+                        if (cocktai11.getId() == cocktai12.getId()) {
+                            
+                        }
+                    }
+                }
+                session.setAttribute("cocktailResults", byIngredient);
+                forward("/search_cocktail.jsp");
+            } else {
+                session.setAttribute("cocktailResults", byIngredient);
+                forward("/search_cocktail.jsp");
             }
-            n = "ingredient";
+        } else if (byIngredient2 != null) {
+            session.setAttribute("cocktailResults", byIngredient2);
+            forward("/search_cocktail.jsp");
         }
     }
 }
