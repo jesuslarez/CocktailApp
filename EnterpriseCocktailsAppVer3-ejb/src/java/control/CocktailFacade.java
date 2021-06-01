@@ -4,6 +4,7 @@ import entities.Bar;
 import entities.Client;
 import entities.Cocktail;
 import entities.CocktailRecipeAndDescription;
+import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -34,6 +35,7 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
                 .getResultList();
 
     }
+
     public List<Cocktail> addFavourite(String cocktailName, Client user) {
         List cocktailCollection = em.createQuery("SELECT c FROM Cocktail c WHERE c.clientCollection IN (:user)")
                 .setParameter("user", user)
@@ -52,7 +54,6 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
         newCocktail.setId(id);
         newCocktail.setName(name);
         newCocktail.setCocktailRecipeAndDescription(rd);
-
         em.persist(newCocktail);
         return newCocktail;
     }
@@ -67,13 +68,8 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
         return i;
     }
 
-    public void remove(int id) {
-        Cocktail cocktail = em.find(Cocktail.class, id);
-        em.remove(cocktail);
-    }
-
-    public Cocktail merge(int id, String name, String description, String recipe) {
-        Cocktail cocktail = em.find(Cocktail.class, id);
+    public Cocktail merge(String oldName, String name, String description, String recipe) {
+        Cocktail cocktail = this.findByName(oldName);
         CocktailRecipeAndDescription rd = new CocktailRecipeAndDescription();
         if (name != null) {
             cocktail.setName(name);
@@ -89,24 +85,44 @@ public class CocktailFacade extends AbstractFacade<Cocktail> {
             rd.setRecipe(cocktail.getCocktailRecipeAndDescription().getRecipe());
         }
         cocktail.setCocktailRecipeAndDescription(rd);
+        cocktail.setName(name);
         em.merge(cocktail);
         return cocktail;
     }
 
-    public List<Cocktail> orderByName() {
-        return em.createQuery("SELECT c FROM Cocktail c ORDER BY c.name").getResultList();
+    public List<Cocktail> orderByName(List<Cocktail> cocktails) {
+        List<Cocktail> resultList = em.createQuery("SELECT c FROM Cocktail c ORDER BY c.name").getResultList();
+        List<Cocktail> resultCopy = em.createQuery("SELECT c FROM Cocktail c ORDER BY c.name").getResultList();
+        resultCopy.clear();
+        for (Cocktail cocktail : resultList) {
+            if (cocktails.contains(cocktail)) {
+                resultCopy.add(cocktail);
+            }
+        }
+        return resultCopy;
     }
 
-    public List<Cocktail> getByIngredient(String ingredient) {
+    public List<Cocktail> getByIngredient(String ingredient, int start) {
         if (ingredient.equals("Any")) {
-            return this.findAll();
+            return em.createQuery("SELECT c FROM Cocktail c")
+                    .setFirstResult(start)
+                    .setMaxResults(5)
+                    .getResultList();
         }
         return em.createQuery("SELECT c FROM Cocktail c inner join c.ingredientCollection i WHERE i.name LIKE :ingredient")
                 .setParameter("ingredient", ingredient)
+                .setFirstResult(start)
+                .setMaxResults(5)
                 .getResultList();
     }
-    public Cocktail findByName(String name){
+
+    public Cocktail findByName(String name) {
         return (Cocktail) em.createNamedQuery("Cocktail.findByName").setParameter("name", name).getSingleResult();
     }
 
+    public int deleteCocktail(int id) {
+        return em.createQuery("DELETE FROM Cocktail c WHERE c.id = :id")
+                .setParameter("id", id)
+                .executeUpdate();
+    }
 }

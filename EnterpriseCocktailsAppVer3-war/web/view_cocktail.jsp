@@ -29,18 +29,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="index.jsp">Home</a>
+                    <a class="nav-link" href="main.jsp">Home</a>
                     <a class="nav-link" href="favourite_list.jsp">Favourite Cocktails</a>                 
                     <a class="nav-link" href="favourite_bar_list.jsp">Favourite Bars</a>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewLog">
-                        <input type="submit" value="Log View" class="nav-link">
-                    </form>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewStats">
-                        <input type="submit" value="Stats View" class="nav-link">
-                    </form>
-                    <a class="nav-link" href="timer.jsp">Timer</a>
+                    <a class="nav-link" href="index.jsp">Log Out</a>
                 </div>
             </div>
         </div>
@@ -55,6 +47,24 @@
         String recipe = cocktailRecipeAndDescription.getRecipe();
         Collection<Bar> barList = cocktail.getBarCollection();
     %>
+    <form action=FrontController>
+        <label for="name" class="sr-only">Name</label><br>
+        <input type="text" name="newName" value="<%= cocktail.getName()%>"><br>
+        <label for="description" class="sr-only">Description</label><br>
+        <input type="text" name="description" value="<%= description%>"><br>
+        <label for="recipe" class="sr-only">Recipe</label><br>
+        <input type="text" name="recipe" value="<%= recipe%>"><br>
+        <input type="hidden" value = "<%= cocktail.getName()%>" name="name">
+        <input type="hidden" name="command" value="CmdEditCocktail">
+        <input type="submit" class="btn btn-warning" value ="Edit Cocktail" > 
+    </form> 
+    <br>
+    <form action=FrontController>
+        <input type="hidden" value = "<%= cocktail.getName()%>" name="name">
+        <input type="hidden" name="command" value="CmdDeleteCocktail">
+        <input type="submit" class="btn btn-danger" value ="Delete Cocktail" > 
+    </form> 
+
     <h1> <%= name%> </h1>
     <ul><h5> <%= description%> </h5></ul>
     <h2> Recipe: <br> </h2> <ul><h3><%= recipe%> </h3> </ul>

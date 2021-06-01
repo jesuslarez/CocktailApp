@@ -28,18 +28,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="index.jsp">Home</a>
+                    <a class="nav-link" href="main.jsp">Home</a>
                     <a class="nav-link" href="favourite_list.jsp">Favourite Cocktails</a>                 
                     <a class="nav-link" href="favourite_bar_list.jsp">Favourite Bars</a>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewLog">
-                        <input type="submit" value="Log View" class="nav-link">
-                    </form>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewStats">
-                        <input type="submit" value="Stats View" class="nav-link">
-                    </form>
-                    <a class="nav-link" href="timer.jsp">Timer</a>
+                    <a class="nav-link" href="index.jsp">Log Out</a>
                 </div>
             </div>
         </div>

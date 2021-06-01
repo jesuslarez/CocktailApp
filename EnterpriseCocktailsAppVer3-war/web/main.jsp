@@ -34,15 +34,7 @@
                     <a class="nav-link active" aria-current="page" href="#">Home</a>
                     <a class="nav-link" href="favourite_list.jsp">Favourite Cocktails</a>
                     <a class="nav-link" href="favourite_bar_list.jsp">Favourite Bars</a>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewLog">
-                        <input type="submit" value="Log View" class="nav-link">
-                    </form>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewStats">
-                        <input type="submit" value="Stats View" class="nav-link">
-                    </form>
-                    <a class="nav-link" href="timer.jsp">Timer</a>
+                    <a class="nav-link" href="index.jsp">Log Out</a>
                 </div>
             </div>
         </div>
@@ -77,6 +69,7 @@
 
                     </select> <br>
                     <input type="hidden" name="command" value="CmdSearchCocktail">
+                    <input type="hidden" name="start" value="0"> 
                     <input type="submit" value="Search Cocktails" class="btn btn-primary">
                 </form>
             </div>
@@ -100,6 +93,26 @@
                     </select> <br>
                     <input type="hidden" name="command" value="CmdViewBar">
                     <input type="submit" value="View Bar" class="btn btn-primary">
+                </form>
+            </div>
+            <div class="col">
+
+            </div>
+        </div> <br>
+    </div>
+    <h2>Add New Cocktail</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <form action="FrontController">
+                    <label for="name" class="sr-only">Name</label><br>
+                    <input type="text" name="name" value=""><br>
+                    <label for="description" class="sr-only">Description</label><br>
+                    <input type="text" name="description" value=""><br>
+                    <label for="recipe" class="sr-only">Recipe</label><br>
+                    <input type="text" name="recipe" value=""><br>
+                    <input type="hidden" name="command" value="CmdAddCocktail">
+                    <input type="submit" value="Add Cocktail" class="btn btn-primary">
                 </form>
             </div>
             <div class="col">

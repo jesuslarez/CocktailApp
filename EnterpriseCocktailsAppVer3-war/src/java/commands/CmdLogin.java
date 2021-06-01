@@ -47,7 +47,7 @@ public class CmdLogin extends FrontCommand {
             session.setAttribute("catalog", catalog);
             session.setAttribute("bars", bars);
             session.setAttribute("ingredients", ingredients);
-
+            session.setAttribute("start", 0);
             forward("/main.jsp");
         } else {
             forward("/unknown.jsp");
@@ -90,7 +90,7 @@ public class CmdLogin extends FrontCommand {
             bar = InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/BarFacade");
         } catch (NamingException ex) {
             Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }
         return bar.findAll();
     }
 

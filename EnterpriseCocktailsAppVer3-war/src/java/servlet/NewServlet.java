@@ -56,103 +56,38 @@ public class NewServlet extends HttpServlet {
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet NewServlet at " + request.getContextPath() + "</h1>");
-            System.out.println("<h2> " + cocktailFacade.findAll() + " </h2>");
-            out.println("<h2> " + cocktailFacade.findAll() + " </h2>");
-
             ClientFacade client = null;
             try {
                 client = (ClientFacade) InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/ClientFacade");
             } catch (NamingException ex) {
                 Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
             }
-            /*
-            List<Client> findAll = client.findAll();
-            for (Client client1 : findAll) {
-
-                System.out.println("<h2> " + client1.getNickname() + " </h2>");
-                out.println("<h2> " + client1.getNickname() + " </h2>");
-            }
-             */
-            List<Cocktail> findAll1 = cocktailFacade.findAll();
-            for (Cocktail cocktail : findAll1) {
-                System.out.println("<h3> " + cocktail.getName() + "</h3>");
-                out.println("<h3> " + cocktail.getName() + "</h3>");
+            List<Bar> findAll1 = barFacade.findAll();
+            for (Bar bar : findAll1) {
+                System.out.println("<h3> " + bar.getName() + "</h3>");
+                out.println("<h3> " + bar.getName() + "</h3>");
             }
             out.println("<br>");
-            /*
-            // add cocktail funciona,
-            Cocktail added = cocktailFacade.add("newCocktail", "Description", "Recipe");
-            System.out.println("Added: " + added.getName() + ", id:" + added.getId());
-            out.println("Added: " + added.getName() + ", id:" + added.getId());
-            findAll1 = cocktailFacade.findAll();
-            for (Cocktail cocktail : findAll1) {
-            if (cocktail.getId() == 99) {
-            System.out.println("<h3> FOUND IT: " + cocktail.getName() + " " + cocktail.getId() + "</h3>");
-            out.println("<h3> FOUND IT: " + cocktail.getName() + " " + cocktail.getId() + "</h3>");
-            } else {
-            System.out.println("<h3> " + cocktail.getName() + "</h3>");
-            out.println("<h3> " + cocktail.getName() + "</h3>");
-            }
-            }
-             */
- /*
-            // remove cocktail funciona,
-            cocktailFacade.remove(6);
-            System.out.println("removed: id: 6");
-            out.println("removed: id: 6");
-            findAll1 = cocktailFacade.findAll();
-            for (Cocktail cocktail : findAll1) {
-            if (cocktail.getId() == 6) {
-            System.out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
-            out.println("<h3> FOUND IT: " + cocktail.getName() + "</h3>");
-            } else {
-            System.out.println("<h3> " + cocktail.getName() + "</h3>");
-            out.println("<h3> " + cocktail.getName() + "</h3>");
-            }
-            }
-             */
- /*
-            //merge
-            cocktailFacade.merge(6, "ModifiedCocktail", "This has been changed", "This is the new Recipe");
-            findAll1 = cocktailFacade.findAll();
-            for (Cocktail cocktail : findAll1) {
-            System.out.println("<h3> " + cocktail.getName() + "</h3>");
-            out.println("<h3> " + cocktail.getName() + "</h3>");
-            }
-             */
- /*
-            //Find by name
-            List findByName = cocktailFacade.findByName("Mojito");
-            out.println("<h2> Cocktails Found: </h2>");
-            for (Object object : findByName) {
-            Cocktail cocktail = (Cocktail) object;
-            out.println("<h2>" + cocktail.getName() +"</h2>");
-            }
-             */
- /*
-            List<Cocktail> orderByName = cocktailFacade.orderByName();
-            out.println("<h2> Cocktails Found ordered by NAME: </h2>");
-            for (Cocktail cocktail : orderByName) {
-            System.out.println("<h3> " + cocktail.getName() + "</h3>");
-            out.println("<h3> " + cocktail.getName() + "</h3>");
-            }
-             */
- /*
-            List<Cocktail> byIngredient = cocktailFacade.getByIngredient("lime");
-            out.println("<h3> BY INGREDIENT LIME</h3>");
-            for (Cocktail cocktail : byIngredient) {
-                System.out.println("<h3> " + cocktail.getName() + "</h3>");
-                out.println("<h3> " + cocktail.getName() + "</h3>");
-            }
-             */
 
             Client user = client.login(request.getParameter("nickname"), request.getParameter("password"));
             List<Bar> orderByName = barFacade.orderByName(user);
             for (Bar bar : orderByName) {
-                System.out.println(bar.getName());
-                out.println(bar.getName());
+                System.out.println("<h3> " + bar.getName() + "</h3>");
+                out.println("<h3> " + bar.getName() + "</h3>");
             }
-
+            
+            CocktailFacade cocktailFacade = null;
+            try {
+                cocktailFacade = InitialContext.doLookup("java:global/EnterpriseCocktailsAppVer3/EnterpriseCocktailsAppVer3-ejb/CocktailFacade");
+            } catch (NamingException ex) {
+                Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+           // int deleteCocktail = cocktailFacade.deleteCocktail(99);
+            
+            //client.editClient(2, "jesus", "1234");
+            
+            
             out.println("</body>");
             out.println("</html>");
         }

@@ -23,27 +23,19 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" href="index.jsp">Home</a>
+                    <a class="nav-link" href="main.jsp">Home</a>
                     <a class="nav-link" href="favourite_list.jsp">Favourite Cocktails</a>                 
                     <a class="nav-link" href="favourite_bar_list.jsp">Favourite Bars</a>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewLog">
-                        <input type="submit" value="Log View" class="nav-link">
-                    </form>
-                    <form action="FrontController">
-                        <input type="hidden" name="command" value="CmdViewStats">
-                        <input type="submit" value="Stats View" class="nav-link">
-                    </form>
-                    <a class="nav-link" href="timer.jsp">Timer</a>
+                    <a class="nav-link" href="index.jsp">Log Out</a>
                 </div>
             </div>
         </div>
     </nav>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    
+
     <% String message = (String) session.getAttribute("errorMessage");
     %>
-    <h1> <%= message %> </h1>
+    <h1> <%= message%> </h1>
     <footer class="bg-light text-center text-lg-start">
         <!-- Copyright -->
         <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">

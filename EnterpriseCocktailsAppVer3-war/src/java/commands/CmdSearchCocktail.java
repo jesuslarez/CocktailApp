@@ -16,7 +16,7 @@ import servlet.FrontController;
  * @author Jesus Larez
  */
 public class CmdSearchCocktail extends FrontCommand {
-
+    
     @Override
     public void process() {
         HttpSession session = request.getSession(true);
@@ -26,11 +26,15 @@ public class CmdSearchCocktail extends FrontCommand {
         } catch (NamingException ex) {
             Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        List<Cocktail> byIngredient = cocktailFacade.getByIngredient(request.getParameter("ingredient1"));
-        List<Cocktail> byIngredient2 = cocktailFacade.getByIngredient(request.getParameter("ingredient2"));
-
-        //Hacer un select the where ingredient1 and ingredient2
-        
+        int start = Integer.valueOf(request.getParameter("start"));
+        if (start < 0) {
+            start = 0;
+        }
+        session.setAttribute("ingredient1", request.getParameter("ingredient1"));
+        session.setAttribute("ingredient2", request.getParameter("ingredient2"));
+        session.setAttribute("start", start);
+        List<Cocktail> byIngredient = cocktailFacade.getByIngredient(request.getParameter("ingredient1"), start);
+        List<Cocktail> byIngredient2 = cocktailFacade.getByIngredient(request.getParameter("ingredient2"), start);
         if (byIngredient != null) {
             if (byIngredient2 != null) {
                 for (Cocktail cocktai11 : byIngredient2) {

@@ -1,6 +1,7 @@
 package control;
 
 import entities.Client;
+import entities.CocktailRecipeAndDescription;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -32,6 +33,13 @@ public class ClientFacade extends AbstractFacade<Client> {
                 .getResultList();
         if (!resultList.isEmpty()) return resultList.get(0);
         return null;
+    }
+    public int editClient(int id, String name, String password) {
+        return em.createQuery("UPDATE Client c SET c.nickname = :name, c.password = :password WHERE c.id = :id")
+                .setParameter("id", id)
+                .setParameter("name", name)
+                .setParameter("password", password)
+                .executeUpdate();
     }
     
 }
