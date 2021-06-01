@@ -1,10 +1,8 @@
 package control;
 
-import entities.Bar;
 import entities.Client;
 import entities.Cocktail;
 import entities.CocktailRecipeAndDescription;
-import java.util.Collection;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;

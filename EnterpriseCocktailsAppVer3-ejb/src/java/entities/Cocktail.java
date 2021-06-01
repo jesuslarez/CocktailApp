@@ -35,7 +35,7 @@ public class Cocktail implements Serializable {
     private Integer id;
     @Column(name = "NAME")
     private String name;
-    private CocktailRecipeAndDescription cocktailRecipeAndDescription;
+    private CocktailRecipeAndDescription rd;
     
     @ManyToMany(mappedBy = "cocktailCollection")
     private Collection<Client> clientCollection;
@@ -74,11 +74,11 @@ public class Cocktail implements Serializable {
     }
 
     public CocktailRecipeAndDescription getCocktailRecipeAndDescription() {
-        return cocktailRecipeAndDescription;
+        return rd;
     }
 
     public void setCocktailRecipeAndDescription(CocktailRecipeAndDescription cocktailRecipeAndDescription) {
-        this.cocktailRecipeAndDescription = cocktailRecipeAndDescription;
+        this.rd = cocktailRecipeAndDescription;
     }
     
 

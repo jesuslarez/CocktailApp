@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author Jesus Larez
  */
-public class NewServlet extends HttpServlet {
+public class TestServlet extends HttpServlet {
 
     @EJB
     CocktailFacade cocktailFacade;
@@ -83,9 +83,9 @@ public class NewServlet extends HttpServlet {
                 Logger.getLogger(FrontController.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-           // int deleteCocktail = cocktailFacade.deleteCocktail(99);
+            //int deleteCocktail = cocktailFacade.deleteCocktail(16);
             
-            //client.editClient(2, "jesus", "1234");
+            client.editClient(2, "javier", "AS");
             
             
             out.println("</body>");

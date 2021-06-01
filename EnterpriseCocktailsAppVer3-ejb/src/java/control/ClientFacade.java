@@ -1,7 +1,6 @@
 package control;
 
 import entities.Client;
-import entities.CocktailRecipeAndDescription;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
